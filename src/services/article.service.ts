@@ -1,14 +1,21 @@
 import { Article } from "../controllers/arcticle.controller";
 import { Request, Response } from "express";
 
-export const getArtileById = (req: Request, arr: Article[]) => {
+let arr: Article[] = [];
+let id: number = 0;
+
+export const getAllAtricles = () => {
+  return arr;
+};
+
+export const getArtileById = (req: Request) => {
   const id = JSON.parse(req.params.id);
   const article = arr.find((el: Article) => el.id == id);
 
   return article;
 };
 
-export const AddArticle = (req: Request, arr: Article[], id: number) => {
+export const AddArticle = (req: Request) => {
   const articlesData = req.body;
   id++;
   arr.push({ id: id, name: articlesData.name });
@@ -16,7 +23,7 @@ export const AddArticle = (req: Request, arr: Article[], id: number) => {
   return arr;
 };
 
-export const editArticle = (req: Request, arr: Article[]) => {
+export const editArticle = (req: Request) => {
   const id = parseInt(req.params.id);
 
   const article = arr.find((el: Article) => el.id === id);
@@ -24,7 +31,7 @@ export const editArticle = (req: Request, arr: Article[]) => {
   return article;
 };
 
-export const deleteArticle = (req: Request, arr: Article[]) => {
+export const deleteArticle = (req: Request) => {
   const id = parseInt(req.params.id);
 
   arr = arr.filter((el: Article) => el.id !== id);

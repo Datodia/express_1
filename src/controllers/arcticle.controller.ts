@@ -3,6 +3,7 @@ import {
   AddArticle,
   deleteArticle,
   editArticle,
+  getAllAtricles,
   getArtileById,
 } from "../services/article.service";
 
@@ -11,26 +12,24 @@ export type Article = {
   name: string;
 };
 
-let arr: Article[] = [];
-let id: number = 0;
-
 export const GetAllArticle = (req: Request, res: Response) => {
-  res.send(arr);
+  const respose = getAllAtricles();
+  res.send(respose);
 };
 
 export const GetArticle = (req: Request, res: Response) => {
-  const response = getArtileById(req, arr);
+  const response = getArtileById(req);
   res.send(response);
 };
 
 export const AddArticles = (req: Request, res: Response) => {
-  const result = AddArticle(req, arr, id);
+  const result = AddArticle(req);
   res.status(201).json(result);
 };
 
 export const UpdateArticle = (req: Request, res: Response) => {
   const { name } = req.body;
-  const article = editArticle(req, arr);
+  const article = editArticle(req);
 
   if (article) {
     article.name = name;
@@ -39,6 +38,6 @@ export const UpdateArticle = (req: Request, res: Response) => {
 };
 
 export const DeleteArticle = (req: Request, res: Response) => {
-  deleteArticle(req, arr);
+  deleteArticle(req);
   res.status(200).json({ message: "Deleted Sucsessfully" });
 };
