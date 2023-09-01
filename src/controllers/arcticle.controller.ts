@@ -1,16 +1,8 @@
 import { Request, Response } from "express";
-import {
-  // AddArticle,
-  ArticlesService,
-  // deleteArticle,
-  // editArticle,
-  // getAllAtricles,
-  // getArtileById,
-} from "../services/article.service";
-import { Article } from "../models/article.model";
+import { ArticlesService } from "../services/article.service";
 
 export class ArticlesContoller {
-  articlesService: ArticlesService;
+  private readonly articlesService: ArticlesService;
 
   constructor() {
     this.articlesService = new ArticlesService();
@@ -22,27 +14,31 @@ export class ArticlesContoller {
   }
 
   getArticle(req: Request, res: Response) {
-    const response = this.articlesService.getArticleById(req);
+    const id = parseInt(req.params.id);
+    const response = this.articlesService.getArticleById(id);
     res.send(response);
   }
   addArtice(req: Request, res: Response) {
-    const result = this.articlesService.AddArticle(req);
-    res.status(201).json(result);
+    const result = this.articlesService.AddArticle(req.body.name);
+    res.sendStatus(201).json(result);
   }
 
   updateArticle(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
     const { name } = req.body;
-    const article = this.articlesService.editArticle(req);
+    const article = this.articlesService.editArticle(id, name);
 
     if (article) {
-      article.name = name;
       res.send(200).json(article);
     }
   }
 
   deleteArticle(req: Request, res: Response) {
-    this.articlesService.deleteArticle(req);
-    res.status(200).json({ message: "Deleted Sucsessfully" });
+    const id = parseInt(req.params.id);
+
+    this.articlesService.deleteArticle(id);
+
+    res.sendStatus(200).json({ message: "Deleted Sucsessfully" });
   }
 }
 
