@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true
+    "module": "CommonJS",
+    "target": "ESNext",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "strict": false,
+    "outDir": "./build"
   },
-  "target": "ESNext",
-  "module": "CommonJS",
-  "noImplicitAny": true,
-  "include": ["/*.ts"],
+  "include": ["./src"],
   "exclude": ["node_modules"]
 }

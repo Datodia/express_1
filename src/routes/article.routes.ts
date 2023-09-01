@@ -1,22 +1,22 @@
 import express from "express";
-import {
-  // AddArticles,
-  ArticlesContoller,
-  // DeleteArticle,
-  // GetAllArticle,
-  // GetArticle,
-  // UpdateArticle,
-} from "../controllers/arcticle.controller";
-const router = express.Router();
+import { ArticlesContoller } from "../controllers/arcticle.controller";
 
-const ArticleController = new ArticlesContoller();
+const articleController = new ArticlesContoller();
 
-router.use(express.json());
+export const articlesRouter = express.Router();
 
-router.get("/articles", ArticleController.getAllArticle);
-router.get("/articles/:id", ArticleController.getArticle);
-router.post("/articles", ArticleController.addArtice);
-router.patch("/articles/:id", ArticleController.updateArticle);
-router.delete("/articles/:id", ArticleController.deleteArticle);
-
-module.exports = router;
+articlesRouter.get("/articles", (req, res) => {
+  articleController.getAllArticle(req, res);
+});
+articlesRouter.get("/articles/:id", (req, res) => {
+  return articleController.getArticle(req, res);
+});
+articlesRouter.post("/articles", (req, res) => {
+  return articleController.addArtice(req, res);
+});
+articlesRouter.patch("/articles/:id", (req, res) => {
+  return articleController.updateArticle(req, res);
+});
+articlesRouter.delete("/articles/:id", (req, res) => {
+  return articleController.deleteArticle(req, res);
+});

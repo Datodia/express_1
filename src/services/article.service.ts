@@ -1,43 +1,47 @@
 import { Request, Response } from "express";
 import { Article } from "../models/article.model";
 
-let arr: Article[] = [];
+let articles: Article[] = [];
 let id: number = 0;
 
 export class ArticlesService {
   getAllArticles(): Array<Article> {
-    return arr;
+    return articles;
   }
 
-  getArticleById(req: Request): Article | undefined {
-    const id = JSON.parse(req.params.id);
-    const article = arr.find((el: Article) => el.id == id);
+  getArticleById(id: number): Article | undefined {
+    const article = articles.find((el: Article) => el.id === id);
 
     return article;
   }
 
-  AddArticle(req: Request): Array<Article> {
-    const articlesData = req.body;
+  AddArticle(name: string): Array<Article> {
     id++;
-    arr.push({ id: id, name: articlesData.name });
+    const article = new Article(id, name);
 
-    return arr;
+    articles.push(article);
+
+    return articles;
   }
 
-  editArticle(req: Request): Article | undefined {
-    const id = parseInt(req.params.id);
+  editArticle(id: number, name: string): Article | undefined {
+    const article = articles.find((el: Article) => el.id === id);
 
-    const article = arr.find((el: Article) => el.id === id);
+    if (!article) {
+      throw new Error(`Article has not found by id - ${id}`);
+    }
+
+    article.name = name;
 
     return article;
   }
 
-  deleteArticle(req: Request) {
-    const id = parseInt(req.params.id);
-    arr = arr.filter((el: Article) => el.id !== id);
+  deleteArticle(id: number) {
+    articles = articles.filter((el: Article) => el.id !== id);
+
+    return articles;
   }
 }
-
 // export const getAllAtricles = () => {
 //   return arr;
 // };
